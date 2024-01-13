@@ -13,6 +13,9 @@ pnpm dev
 # or
 bun dev
 ```
+## Screenshots
+![image](https://github.com/rajneesh069/routine-handler/assets/108251751/33ab8313-ddf1-4473-8911-73ab06f3c7aa)
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
