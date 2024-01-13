@@ -21,6 +21,8 @@ export default function InputCard() {
     isTextError: text === "",
     isMinError: String(min) === "",
     isHrError: String(hr) === "",
+    isHrMaxError: Number(hr) >= 24 || Number(hr) < 0,
+    isMinutesMaxError: Number(min) >= 60 || Number(min) < 0,
   };
   function handleSubmit(event: any) {
     event.preventDefault();
@@ -53,7 +55,10 @@ export default function InputCard() {
           </FormControl>
           <Text>Time(24 hrs) :</Text>
           <HStack marginTop={"2%"}>
-            <FormControl isInvalid={isError.isHrError} isRequired>
+            <FormControl
+              isInvalid={isError.isHrError || isError.isHrMaxError}
+              isRequired
+            >
               <FormLabel>Hours</FormLabel>
               <NumberInput
                 value={hr}
@@ -80,8 +85,16 @@ export default function InputCard() {
               ) : (
                 <FormErrorMessage>Hours required.</FormErrorMessage>
               )}
+              {!isError.isHrMaxError ? (
+                ""
+              ) : (
+                <FormErrorMessage>Invalid Hours.</FormErrorMessage>
+              )}
             </FormControl>
-            <FormControl isInvalid={isError.isMinError} isRequired>
+            <FormControl
+              isInvalid={isError.isMinError || isError.isMinutesMaxError}
+              isRequired
+            >
               <FormLabel>Minutes</FormLabel>
               <NumberInput
                 value={min}
@@ -108,6 +121,11 @@ export default function InputCard() {
               ) : (
                 <FormErrorMessage>Minutes required.</FormErrorMessage>
               )}
+              {!isError.isMinutesMaxError ? (
+                ""
+              ) : (
+                <FormErrorMessage>Invalid Minutes.</FormErrorMessage>
+              )}
             </FormControl>
           </HStack>
         </form>
@@ -120,7 +138,11 @@ export default function InputCard() {
             if (
               !isError.isHrError &&
               !isError.isTextError &&
-              !isError.isMinError
+              !isError.isMinError &&
+              Number(hr) < 24 &&
+              Number(hr) >= 0 &&
+              Number(min) >= 0 &&
+              Number(min) < 60
             ) {
               handleSubmit(event);
             }

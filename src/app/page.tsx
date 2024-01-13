@@ -5,7 +5,6 @@ import ReminderCard from "./components/ReminderCard";
 import { useSelector } from "react-redux";
 export default function Home() {
   const todos = useSelector((state: { todos: ToDo[] }) => state.todos);
-  console.log(todos);
   return (
     <Box margin={"1%"}>
       <SimpleGrid
