@@ -112,7 +112,7 @@ export default function ReminderCard({ text, hr, isCompleted, min, id }: ToDo) {
       spacing={4}
       templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
     >
-      <Card background={"#eee"} maxHeight={"200px"}>
+      <Card background={"#eee"} maxHeight={"200px"} border={"1px solid blue"}>
         <CardHeader>
           <Heading textDecoration={isCompleted ? "line-through" : ""} size="md">
             {text}
