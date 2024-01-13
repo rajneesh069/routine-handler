@@ -2,10 +2,9 @@
 import { Box, SimpleGrid } from "@chakra-ui/react";
 import InputCard, { ToDo } from "./components/InputCard";
 import ReminderCard from "./components/ReminderCard";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 export default function Home() {
   const todos = useSelector((state: { todos: ToDo[] }) => state.todos);
-  const dispatch = useDispatch();
   return (
     <Box margin={"1%"}>
       <SimpleGrid

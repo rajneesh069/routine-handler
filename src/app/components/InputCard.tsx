@@ -1,12 +1,6 @@
 "use client";
 import { HStack, Input, Text } from "@chakra-ui/react";
-import {
-  SimpleGrid,
-  Card,
-  CardBody,
-  CardFooter,
-  Button,
-} from "@chakra-ui/react";
+import { Card, CardBody, CardFooter, Button } from "@chakra-ui/react";
 import {
   NumberInput,
   NumberInputField,
@@ -14,7 +8,7 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
 } from "@chakra-ui/react";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToDo } from "../store/slices/toDoSlice";
 export default function InputCard() {
@@ -25,6 +19,9 @@ export default function InputCard() {
   function handleSubmit(event: any) {
     event.preventDefault();
     dispatch(addToDo({ text, hr, min, date: new Date() }));
+    setText("");
+    setHr("");
+    setMin("");
   }
   return (
     <Card background={"#eee"} border={"1px solid black"} maxWidth={"270px"}>
@@ -44,6 +41,7 @@ export default function InputCard() {
           Time(24 hrs) :
           <HStack marginTop={"2%"}>
             <NumberInput
+              value={hr}
               border={"1px solid black"}
               borderRadius={"10"}
               min={0}
@@ -63,6 +61,7 @@ export default function InputCard() {
             </NumberInput>
             <Text>Hrs</Text>
             <NumberInput
+              value={min}
               border={"1px solid black"}
               borderRadius={"10"}
               min={0}
