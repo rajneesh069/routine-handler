@@ -14,10 +14,10 @@ pnpm dev
 bun dev
 ```
 ## Screenshots
-![image](https://github.com/rajneesh069/routine-handler/assets/108251751/ce515981-6917-4f81-81dd-94760e5d1c11)
-![image](https://github.com/rajneesh069/routine-handler/assets/108251751/75f45212-77cf-43d1-af87-6b126e0c988c)
-![image](https://github.com/rajneesh069/routine-handler/assets/108251751/647a6b0b-4b1d-4e70-816d-eb4c23183d73)
-![image](https://github.com/rajneesh069/routine-handler/assets/108251751/33ab8313-ddf1-4473-8911-73ab06f3c7aa)
+![image](https://github.com/rajneesh069/routine-handler/assets/108251751/e6ef2999-c064-401b-8195-8ea481eae88b)
+![image](https://github.com/rajneesh069/routine-handler/assets/108251751/01587346-daf6-48a3-b91e-df133c6902dc)
+![image](https://github.com/rajneesh069/routine-handler/assets/108251751/2d63bd0b-961e-4f66-8076-6849f022b097)
+
 
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
