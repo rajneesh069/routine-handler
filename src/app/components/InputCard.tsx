@@ -8,12 +8,7 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
 } from "@chakra-ui/react";
-import {
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-} from "@chakra-ui/react";
+import { FormControl, FormLabel, FormErrorMessage } from "@chakra-ui/react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToDo } from "../store/slices/toDoSlice";
@@ -29,7 +24,7 @@ export default function InputCard() {
   };
   function handleSubmit(event: any) {
     event.preventDefault();
-    dispatch(addToDo({ text, hr, min, date: new Date() }));
+    dispatch(addToDo({ text, hr, min, isCompleted: false }));
     setText("");
     setHr("");
     setMin("");
@@ -40,6 +35,7 @@ export default function InputCard() {
         <form>
           <FormControl isRequired isInvalid={isError.isTextError}>
             <Input
+              autoComplete="off"
               background={"white"}
               marginTop={"2%"}
               placeholder="Title"
@@ -68,6 +64,7 @@ export default function InputCard() {
                 background={"white"}
               >
                 <NumberInputField
+                  autoComplete="off"
                   value={hr}
                   onChange={(event) => {
                     setHr(event.target.value);
@@ -95,6 +92,7 @@ export default function InputCard() {
                 background={"white"}
               >
                 <NumberInputField
+                  autoComplete="off"
                   value={min}
                   onChange={(event) => {
                     setMin(event.target.value);

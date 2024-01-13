@@ -8,13 +8,42 @@ import {
   Text,
   CardFooter,
   Button,
+  Input,
+  HStack,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
 } from "@chakra-ui/react";
 import { ToDo } from "./InputCard";
-import { useDispatch } from "react-redux";
-import { addToDo, removeToDo } from "../store/slices/toDoSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addToDo, removeToDo, updateToDo } from "../store/slices/toDoSlice";
 import { useEffect, useState } from "react";
-
+import { FormControl, FormLabel, FormErrorMessage } from "@chakra-ui/react";
 export default function ReminderCard({ text, hr, isCompleted, min, id }: ToDo) {
+  const todos = useSelector((state: { todos: ToDo[] }) => state.todos);
+  const requiredToDo: ToDo | undefined = todos.find((todo) => {
+    return todo.id == id;
+  });
+  const [UpdateText, setUpdateText] = useState(requiredToDo?.text);
+  const [UpdateHr, setUpdateHr] = useState(requiredToDo?.hr);
+  const [UpdateMin, setUpdateMin] = useState(requiredToDo?.min);
+  const isError = {
+    isUpdateTextError: UpdateText === "",
+    isUpdateMinError: String(UpdateHr) === "",
+    isUpdateHrError: String(UpdateMin) === "",
+  };
+  function handleUpdateSubmit(event: any) {
+    event.preventDefault();
+    dispatch(
+      updateToDo({ UpdateText, UpdateHr, UpdateMin, isCompleted: false, id })
+    );
+    setUpdateText("");
+    setUpdateHr("");
+    setUpdateMin("");
+  }
+  const [isUpdated, setIsUpdated] = useState(false);
   let time1: any;
   const hrs = Number(hr);
   const mins = Number(min);
@@ -77,7 +106,8 @@ export default function ReminderCard({ text, hr, isCompleted, min, id }: ToDo) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTimeInMS()]);
-  return (
+
+  return !isUpdated ? (
     <SimpleGrid
       spacing={4}
       templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
@@ -106,9 +136,120 @@ export default function ReminderCard({ text, hr, isCompleted, min, id }: ToDo) {
           >
             Delete
           </Button>
+          &nbsp;
+          <Button
+            background={"white"}
+            onClick={() => {
+              setIsUpdated(!isUpdated);
+            }}
+          >
+            Edit
+          </Button>
         </CardFooter>
       </Card>
     </SimpleGrid>
+  ) : (
+    <Card background={"#eee"} maxWidth={"270px"} border={"2px solid green"}>
+      <CardBody>
+        <form>
+          <FormControl isRequired isInvalid={isError.isUpdateTextError}>
+            <Input
+              autoComplete="off"
+              background={"white"}
+              marginTop={"2%"}
+              placeholder="Title"
+              variant={"filled"}
+              value={UpdateText}
+              onChange={(event) => {
+                setUpdateText(event.target.value);
+              }}
+            />
+            {!isError.isUpdateTextError ? (
+              ""
+            ) : (
+              <FormErrorMessage>ToDo is required.</FormErrorMessage>
+            )}
+          </FormControl>
+          <Text>Time(24 hrs) :</Text>
+          <HStack marginTop={"2%"}>
+            <FormControl isInvalid={isError.isUpdateHrError} isRequired>
+              <FormLabel>Hours</FormLabel>
+              <NumberInput
+                value={UpdateHr}
+                border={"1px solid black"}
+                borderRadius={"10"}
+                min={0}
+                max={23}
+                background={"white"}
+              >
+                <NumberInputField
+                  autoComplete="off"
+                  value={UpdateHr}
+                  onChange={(event) => {
+                    setUpdateHr(event.target.value);
+                  }}
+                />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+              {!isError.isUpdateHrError ? (
+                ""
+              ) : (
+                <FormErrorMessage>Hours required.</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl isInvalid={isError.isUpdateMinError} isRequired>
+              <FormLabel>Minutes</FormLabel>
+              <NumberInput
+                value={UpdateMin}
+                border={"1px solid black"}
+                borderRadius={"10"}
+                min={0}
+                max={59}
+                background={"white"}
+              >
+                <NumberInputField
+                  autoComplete="off"
+                  value={UpdateMin}
+                  onChange={(event) => {
+                    setUpdateMin(event.target.value);
+                  }}
+                />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+              {!isError.isUpdateMinError ? (
+                ""
+              ) : (
+                <FormErrorMessage>Minutes required.</FormErrorMessage>
+              )}
+            </FormControl>
+          </HStack>
+        </form>
+      </CardBody>
+      <CardFooter>
+        <Button
+          background={"white"}
+          type="submit"
+          onClick={(event: any) => {
+            if (
+              !isError.isUpdateHrError &&
+              !isError.isUpdateTextError &&
+              !isError.isUpdateMinError
+            ) {
+              handleUpdateSubmit(event);
+            }
+            setIsUpdated(!isUpdated);
+          }}
+        >
+          Update
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }
 
