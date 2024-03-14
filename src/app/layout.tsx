@@ -1,5 +1,5 @@
-// app/layout.tsx
-import { Providers } from "./providers";
+import StoreProvider from "./StoreProviders";
+import { Chakra } from "./providers";
 
 export default function RootLayout({
   children,
@@ -8,9 +8,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body style={{ backgroundColor: "#73e6ff" }}>
-        <Providers>{children}</Providers>
+      <body style={{ backgroundColor: "#73e6ff", padding: 3 }}>
+        <StoreProvider>
+          <Chakra>{children}</Chakra>
+        </StoreProvider>
       </body>
     </html>
   );
 }
+
+export const metadata = {
+  title: "Daily Reminder",
+  description : "This app reminds you of tasks/todos as per the time set by the user."
+};
