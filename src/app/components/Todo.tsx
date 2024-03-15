@@ -84,9 +84,11 @@ export default function Todo({
           <Text textDecoration={todo.isCompleted ? "line-through" : ""}>
             Title : {todo.title}
           </Text>
-          <Text textDecoration={todo.isCompleted ? "line-through" : ""}>
-            Description : {todo.description}
-          </Text>
+          {todo.description && (
+            <Text textDecoration={todo.isCompleted ? "line-through" : ""}>
+              Description : {todo.description}
+            </Text>
+          )}
         </Box>
         <br />
         <Text color={"gray"} fontSize={15}>
