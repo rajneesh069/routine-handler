@@ -14,10 +14,17 @@ pnpm dev
 bun dev
 ```
 ## Screenshots
-![image](https://github.com/rajneesh069/routine-handler/assets/108251751/e6ef2999-c064-401b-8195-8ea481eae88b)
-![image](https://github.com/rajneesh069/routine-handler/assets/108251751/01587346-daf6-48a3-b91e-df133c6902dc)
-![image](https://github.com/rajneesh069/routine-handler/assets/108251751/2d63bd0b-961e-4f66-8076-6849f022b097)
+### Initial App :
+![alt text](image.png)
 
+### Adding a reminder card :
+![alt text](image-1.png)
+
+### Error Demonstration :
+![alt text](image-2.png)
+
+### Editing the reminder card :
+![alt text](image-3.png)
 
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
