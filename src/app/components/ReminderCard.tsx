@@ -24,6 +24,8 @@ const ReminderCard = () => {
   } = useForm<todoState>();
 
   const onSubmit = (todo: todoState) => {
+    todo.hrs = Math.floor(Number(todo.hrs));
+    todo.mins = Math.floor(Number(todo.mins));
     dispatch(addToDo(todo));
     reset();
   };
@@ -42,6 +44,7 @@ const ReminderCard = () => {
                   {...register("hrs", {
                     required: true,
                     validate: (value) => {
+                      value = Number(value);
                       if (!isNaN(value) && value >= 0 && value < 24) {
                         return true;
                       } else {
@@ -58,6 +61,7 @@ const ReminderCard = () => {
                   {...register("mins", {
                     required: true,
                     validate: (value) => {
+                      value = Number(value);
                       if (!isNaN(value) && value >= 0 && value <= 59)
                         return true;
                       return "Please enter valid minutes.";

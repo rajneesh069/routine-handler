@@ -27,38 +27,23 @@ export default function EditTodo({
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
-  } = useForm<todoState>({
-    defaultValues: {
-      title: todo.title,
-      description: todo.description,
-      hrs: todo.hrs,
-      mins: todo.mins,
-    },
-  });
+    getValues,
+  } = useForm<todoState>();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const dispatch = useAppDispatch();
 
   const onSubmit = (data: todoState) => {
-    data.hrs = Number(data.hrs);
-    data.mins = Number(data.mins);
-    const inputTimeInMS: number =
-      Number(todo.hrs) * 60 * 60 * 1000 + Number(todo.mins) * 60 * 1000;
-
-    const currentTimeInMS: number =
-      new Date().getHours() * 60 * 60 * 1000 +
-      new Date().getMinutes() * 60 * 1000 +
-      new Date().getSeconds() * 1000;
-    const timeoutInMS = inputTimeInMS - currentTimeInMS;
+    data.hrs = Math.floor(Number(data.hrs));
+    data.mins = Math.floor(Number(data.mins));
 
     dispatch(
       editToDo({
         newTodo: data,
         id,
-        isCompleted: timeoutInMS > 0 ? false : true,
+        isCompleted: false,
       })
     );
   };
@@ -68,13 +53,7 @@ export default function EditTodo({
       <Button onClick={onOpen} colorScheme="blue">
         Edit
       </Button>
-      <Modal
-        isOpen={isOpen}
-        onClose={() => {
-          onClose();
-          reset();
-        }}
-      >
+      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalContent>
@@ -85,31 +64,45 @@ export default function EditTodo({
               >
                 <Stack>
                   <Input
+                    defaultValue={
+                      Number(todo.hrs) < 10 ? `0${todo.hrs}` : todo.hrs
+                    }
                     placeholder="Hours"
                     {...register("hrs", {
                       required: "Hours can't be empty.",
                       validate: (value) => {
-                        if (!isNaN(value) && value >= 0 && value <= 24)
+                        value = Number(value);
+                        if (!isNaN(value) && value >= 0 && value <= 24) {
                           return true;
+                        }
                         return "Please enter valid hours.";
                       },
                     })}
                   />
-                  <Text color={"red"}>{errors.hrs?.message}</Text>
+                  <Text fontSize={15} color={"red"}>
+                    {errors.hrs?.message}
+                  </Text>
                 </Stack>
                 <Stack>
                   <Input
+                    defaultValue={
+                      Number(todo.mins) < 10 ? `0${todo.mins}` : todo.mins
+                    }
                     placeholder="Minutes"
                     {...register("mins", {
                       required: "Minutes can't be empty.",
                       validate: (value) => {
-                        if (!isNaN(value) && value >= 0 && value <= 59)
+                        value = Number(value);
+                        if (!isNaN(value) && value >= 0 && value <= 59) {
                           return true;
+                        }
                         return "Please enter valid minutes.";
                       },
                     })}
                   />
-                  <Text color={"red"}>{errors.mins?.message}</Text>
+                  <Text fontSize={15} color={"red"}>
+                    {errors.mins?.message}
+                  </Text>
                 </Stack>
               </Flex>
             </ModalHeader>
@@ -117,21 +110,28 @@ export default function EditTodo({
               <Stack>
                 <Stack>
                   <Input
+                    defaultValue={todo.title}
                     id="title"
                     placeholder="Title"
                     {...register("title", {
                       required: "Title can't be empty.",
                     })}
                   />
-                  <Text color={"red"}>{errors.title?.message}</Text>
+                  <Text
+                    marginLeft={"1%"}
+                    color={"red"}
+                    fontWeight={600}
+                    fontSize={15}
+                  >
+                    {errors.title?.message}
+                  </Text>
                 </Stack>
                 <Spacer />
                 <Stack>
                   <Input
+                    defaultValue={todo.description}
                     placeholder="Description"
-                    {...register("description", {
-                      required: "Description can't be empty.",
-                    })}
+                    {...register("description")}
                   />
                   <Text color={"red"}>{errors.description?.message}</Text>
                 </Stack>
@@ -143,8 +143,10 @@ export default function EditTodo({
                 colorScheme="red"
                 mr={3}
                 onClick={() => {
-                  onClose();
-                  reset();
+                  getValues("hrs") &&
+                    getValues("mins") &&
+                    getValues("title") &&
+                    onClose();
                 }}
               >
                 Cancel
@@ -153,7 +155,10 @@ export default function EditTodo({
                 type="submit"
                 colorScheme="green"
                 onClick={() => {
-                  onClose();
+                  getValues("hrs") &&
+                    getValues("mins") &&
+                    getValues("title") &&
+                    onClose();
                 }}
               >
                 Save

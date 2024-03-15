@@ -12,6 +12,8 @@ import { completedTodo, removeToDo, todoState } from "@/lib/features/todoSlice";
 import { useAppDispatch } from "@/lib/hooks";
 import { useEffect, useMemo } from "react";
 
+export const MSInOneDay = 86_400_000; //(24 hours = 86_400_000ms)
+
 export default function Todo({
   todo,
   index,
@@ -46,7 +48,7 @@ export default function Todo({
       Number(todo.hrs) * 60 * 60 * 1000 + Number(todo.mins) * 60 * 1000;
 
     const currentTimeInMS: number =
-      new Date().getHours() * 60 * 60 * 1000 +
+      (new Date().getHours() % 24) * 60 * 60 * 1000 + //reset the clock to 24-hour format
       new Date().getMinutes() * 60 * 1000 +
       new Date().getSeconds() * 1000;
 
@@ -55,7 +57,7 @@ export default function Todo({
 
   useEffect(() => {
     const timeoutId =
-      timeoutInMS >= 0
+      timeoutInMS > 0
         ? setTimeout(() => {
             alert(todo.title);
             dispatch(completedTodo(index));
@@ -63,7 +65,7 @@ export default function Todo({
         : setTimeout(() => {
             alert(todo.title);
             dispatch(completedTodo(index));
-          }, -1 * timeoutInMS + 86_400_000);
+          }, timeoutInMS + MSInOneDay); //add 24 hours
 
     return () => {
       clearTimeout(timeoutId);
@@ -74,8 +76,9 @@ export default function Todo({
     <Card width={{ md: "23%", base: "100%" }} minHeight={280}>
       <CardHeader fontStyle={"bold"} fontFamily={"cursive"}>
         <Text>
-          Reminder Time : {todo.hrs <= 9 ? `0${todo.hrs}` : todo.hrs}:
-          {todo.mins <= 9 ? `0${todo.mins}` : todo.mins}
+          Reminder Time :{" "}
+          {Number(todo.hrs) <= 9 ? `0${Number(todo.hrs)}` : Number(todo.hrs)}:
+          {Number(todo.mins) <= 9 ? `0${Number(todo.mins)}` : Number(todo.mins)}
         </Text>
         <Text>Reminder Date : {timeoutInMS > 0 ? currentDate : newDate}</Text>
       </CardHeader>

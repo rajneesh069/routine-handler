@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export interface todoState {
-  hrs: number;
-  mins: number;
+  hrs: number | string;
+  mins: number | string;
   title: string;
   description: string;
   isCompleted: boolean;
@@ -21,8 +21,8 @@ const todoSlice = createSlice({
   initialState,
   reducers: {
     addToDo: (state: todoState[], action: PayloadAction<todoState>) => {
-      action.payload.hrs = Number(action.payload.hrs);
-      action.payload.mins = Number(action.payload.mins);
+      action.payload.hrs = Math.floor(Number(action.payload.hrs));
+      action.payload.mins = Math.floor(Number(action.payload.mins));
       action.payload.isCompleted = false;
       state.push(action.payload);
       return state;
