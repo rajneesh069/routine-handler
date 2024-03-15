@@ -39,22 +39,22 @@ const ReminderCard = () => {
               <Stack>
                 <Input
                   placeholder="Hours"
-                  type="number"
                   {...register("hrs", {
                     required: true,
                     validate: (value) => {
-                      if (!isNaN(value) && value >= 0 && value < 24)
+                      if (!isNaN(value) && value >= 0 && value < 24) {
                         return true;
-                      return "Please enter valid hours.";
+                      } else {
+                        return "Please enter valid hours.";
+                      }
                     },
                   })}
                 />
-                {errors.hrs && <Text color={"red"}>{errors.hrs.message}</Text>}
+                {<Text color={"red"}>{errors.hrs?.message}</Text>}
               </Stack>
               <Stack>
                 <Input
                   placeholder="Minutes"
-                  type="number"
                   {...register("mins", {
                     required: true,
                     validate: (value) => {
@@ -64,9 +64,7 @@ const ReminderCard = () => {
                     },
                   })}
                 />
-                {errors.mins && (
-                  <Text color={"red"}>{errors.mins.message}</Text>
-                )}
+                {<Text color={"red"}>{errors.mins?.message}</Text>}
               </Stack>
             </Flex>
             <Stack>
@@ -77,16 +75,12 @@ const ReminderCard = () => {
                   required: true,
                 })}
               />
-              {errors.title && (
-                <Text color={"red"}>{errors.title.message}</Text>
-              )}
+              {<Text color={"red"}>{errors.title?.message}</Text>}
             </Stack>
             <Spacer />
             <Stack>
               <Input placeholder="Description" {...register("description")} />
-              {errors.description && (
-                <Text color={"red"}>{errors.description.message}</Text>
-              )}
+              {<Text color={"red"}>{errors.description?.message}</Text>}
             </Stack>
           </Stack>
         </CardBody>

@@ -55,7 +55,7 @@ export default function Todo({
 
   useEffect(() => {
     const timeoutId =
-      timeoutInMS > 0
+      timeoutInMS >= 0
         ? setTimeout(() => {
             alert(todo.title);
             dispatch(completedTodo(index));
