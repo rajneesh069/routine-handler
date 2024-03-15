@@ -63,7 +63,7 @@ export default function Todo({
         : setTimeout(() => {
             alert(todo.title);
             dispatch(completedTodo(index));
-          }, -1 * timeoutInMS + 86400000);
+          }, -1 * timeoutInMS + 86_400_000);
 
     return () => {
       clearTimeout(timeoutId);
@@ -84,9 +84,11 @@ export default function Todo({
           <Text textDecoration={todo.isCompleted ? "line-through" : ""}>
             Title : {todo.title}
           </Text>
-          <Text textDecoration={todo.isCompleted ? "line-through" : ""}>
-            Description : {todo.description}
-          </Text>
+          {todo.description && (
+            <Text textDecoration={todo.isCompleted ? "line-through" : ""}>
+              Description : {todo.description}
+            </Text>
+          )}
         </Box>
         <br />
         <Text color={"gray"} fontSize={15}>
