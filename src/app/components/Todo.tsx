@@ -10,7 +10,7 @@ import {
 import EditTodo from "./EditTodo";
 import { completedTodo, removeToDo, todoState } from "@/lib/features/todoSlice";
 import { useAppDispatch } from "@/lib/hooks";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 export const MSInOneDay = 86_400_000; //(24 hours = 86_400_000ms)
 
@@ -22,6 +22,7 @@ export default function Todo({
   index: number;
 }) {
   const dispatch = useAppDispatch();
+  const audioRef = useRef(new Audio("/alert.mp3"));
 
   const currentDate = useMemo(() => {
     return new Date().toLocaleString("en-IN", {
@@ -56,19 +57,22 @@ export default function Todo({
   }, [todo.hrs, todo.mins]);
 
   useEffect(() => {
+    const audio = audioRef.current;
+    const playAudioAndCompleteTodo = () => {
+      alert(todo.title);
+      audio.play();
+      dispatch(completedTodo(index));
+    };
+
     const timeoutId =
       timeoutInMS > 0
-        ? setTimeout(() => {
-            alert(todo.title);
-            dispatch(completedTodo(index));
-          }, timeoutInMS)
-        : setTimeout(() => {
-            alert(todo.title);
-            dispatch(completedTodo(index));
-          }, timeoutInMS + MSInOneDay); //add 24 hours
+        ? setTimeout(playAudioAndCompleteTodo, timeoutInMS)
+        : setTimeout(playAudioAndCompleteTodo, timeoutInMS + MSInOneDay); //add 24 hours
 
     return () => {
       clearTimeout(timeoutId);
+      audio.pause();
+      audio.currentTime = 0;
     };
   }, [dispatch, index, timeoutInMS, todo.title]);
 
