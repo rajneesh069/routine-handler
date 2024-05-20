@@ -64,7 +64,6 @@ export default function Todo({
       audio.play();
       alert(todo.title);
       audio.pause();
-      // audio.currentTime = 0;
       dispatch(completedTodo(index));
     };
 
@@ -75,6 +74,7 @@ export default function Todo({
 
     return () => {
       clearTimeout(timeoutId);
+      audio.currentTime = 0;
     };
   }, [dispatch, index, timeoutInMS, todo.title]);
 
