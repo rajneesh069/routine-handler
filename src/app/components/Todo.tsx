@@ -64,7 +64,7 @@ export default function Todo({
       audio.play();
       alert(todo.title);
       audio.pause();
-      audio.currentTime = 0;
+      // audio.currentTime = 0;
       dispatch(completedTodo(index));
     };
 
