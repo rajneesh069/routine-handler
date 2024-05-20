@@ -74,7 +74,6 @@ export default function Todo({
 
     return () => {
       clearTimeout(timeoutId);
-      audio.currentTime = 0;
     };
   }, [dispatch, index, timeoutInMS, todo.title]);
 
