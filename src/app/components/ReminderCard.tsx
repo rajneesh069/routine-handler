@@ -40,6 +40,7 @@ const ReminderCard = () => {
             >
               <Stack>
                 <Input
+                  autoFocus={true}
                   type="number"
                   placeholder="Hours"
                   {...register("hrs", {

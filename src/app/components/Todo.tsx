@@ -22,7 +22,6 @@ export default function Todo({
   index: number;
 }) {
   const dispatch = useAppDispatch();
-  const audioRef = useRef(new Audio("/alert.mp3"));
 
   const currentDate = useMemo(() => {
     return new Date().toLocaleString("en-IN", {
@@ -57,11 +56,9 @@ export default function Todo({
   }, [todo.hrs, todo.mins]);
 
   useEffect(() => {
-    const audio = audioRef.current;
-    audio.loop = true;
-
-    const playAudioAndCompleteTodo = () => {
-      audio.play();
+    const playAudioAndCompleteTodo = async () => {
+      const audio = new Audio("/alert.mp3");
+      await audio.play();
       alert(todo.title);
       audio.pause();
       dispatch(completedTodo(index));
