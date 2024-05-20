@@ -59,8 +59,8 @@ export default function Todo({
   useEffect(() => {
     const audio = audioRef.current;
     const playAudioAndCompleteTodo = () => {
-      audio.play();
       alert(todo.title);
+      audio.play();
       dispatch(completedTodo(index));
       audio.pause();
       audio.currentTime = 0;
