@@ -59,9 +59,11 @@ export default function Todo({
   useEffect(() => {
     const audio = audioRef.current;
     const playAudioAndCompleteTodo = () => {
-      alert(todo.title);
       audio.play();
+      alert(todo.title);
       dispatch(completedTodo(index));
+      audio.pause();
+      audio.currentTime = 0;
     };
 
     const timeoutId =
@@ -71,8 +73,6 @@ export default function Todo({
 
     return () => {
       clearTimeout(timeoutId);
-      audio.pause();
-      audio.currentTime = 0;
     };
   }, [dispatch, index, timeoutInMS, todo.title]);
 
