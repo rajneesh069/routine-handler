@@ -58,12 +58,14 @@ export default function Todo({
 
   useEffect(() => {
     const audio = audioRef.current;
+    audio.loop = true;
+
     const playAudioAndCompleteTodo = () => {
-      alert(todo.title);
       audio.play();
-      dispatch(completedTodo(index));
+      alert(todo.title);
       audio.pause();
       audio.currentTime = 0;
+      dispatch(completedTodo(index));
     };
 
     const timeoutId =
