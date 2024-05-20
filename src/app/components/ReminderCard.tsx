@@ -40,6 +40,7 @@ const ReminderCard = () => {
             >
               <Stack>
                 <Input
+                  type="number"
                   placeholder="Hours"
                   {...register("hrs", {
                     required: true,
@@ -57,6 +58,7 @@ const ReminderCard = () => {
               </Stack>
               <Stack>
                 <Input
+                  type="number"
                   placeholder="Minutes"
                   {...register("mins", {
                     required: true,
@@ -73,6 +75,7 @@ const ReminderCard = () => {
             </Flex>
             <Stack>
               <Input
+                type="text"
                 id="title"
                 placeholder="Title"
                 {...register("title", {
@@ -83,7 +86,11 @@ const ReminderCard = () => {
             </Stack>
             <Spacer />
             <Stack>
-              <Input placeholder="Description" {...register("description")} />
+              <Input
+                placeholder="Description"
+                type="text"
+                {...register("description")}
+              />
               {<Text color={"red"}>{errors.description?.message}</Text>}
             </Stack>
           </Stack>

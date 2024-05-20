@@ -64,6 +64,7 @@ export default function EditTodo({
               >
                 <Stack>
                   <Input
+                    type="number"
                     defaultValue={
                       Number(todo.hrs) < 10 ? `0${todo.hrs}` : todo.hrs
                     }
@@ -85,6 +86,7 @@ export default function EditTodo({
                 </Stack>
                 <Stack>
                   <Input
+                    type="number"
                     defaultValue={
                       Number(todo.mins) < 10 ? `0${todo.mins}` : todo.mins
                     }
@@ -110,6 +112,7 @@ export default function EditTodo({
               <Stack>
                 <Stack>
                   <Input
+                    type="text"
                     defaultValue={todo.title}
                     id="title"
                     placeholder="Title"
@@ -129,6 +132,7 @@ export default function EditTodo({
                 <Spacer />
                 <Stack>
                   <Input
+                    type="text"
                     defaultValue={todo.description}
                     placeholder="Description"
                     {...register("description")}
